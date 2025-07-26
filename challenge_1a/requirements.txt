@@ -1,0 +1,6 @@
+PyMuPDF
+scikit-learn
+numpy
+joblib
+pypdf
+PyPDF2
