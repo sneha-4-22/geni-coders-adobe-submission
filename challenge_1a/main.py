@@ -6,12 +6,12 @@ import string
 import re
 from collections import Counter
 
-def is_header_or_footer(span, page_height, header_threshold=50, footer_threshold=50):
+def is_header_or_footer_block(span, page_height, header_limit=50, footer_limit=50):
     y_position = span["bbox"][1]
-    return y_position <= header_threshold or y_position >= (page_height - footer_threshold)
+    return y_position <= header_limit or y_position >= (page_height - footer_limit)
 
-def is_title_candidate(span, page_num):
-    if page_num != 1:
+def is_title_candidate(span, page_number):
+    if page_number != 1:
         return False
 
     text = span['text'].strip()
@@ -21,8 +21,8 @@ def is_title_candidate(span, page_num):
         return False
     if re.fullmatch(r'[^A-Za-z0-9؀-ۿऀ-ॿ一-鿿]{3,}', text):
         return False
-    lowered = text.lower()
-    if any(s in lowered for s in ["www.", ".com", ".org", ".net"]):
+    lower_text = text.lower()
+    if any(domain in lower_text for domain in ["www.", ".com", ".org", ".net"]):
         return False
     if text.isupper() and len(text.split()) <= 5:
         return False
@@ -31,43 +31,40 @@ def is_title_candidate(span, page_num):
     font_size = span.get("size", 0)
     return font_size >= 10 and bbox_width >= 100
 
-def extract_title_only(doc):
-    title_spans = []
-    page = doc[0]
-    blocks = page.get_text("dict")["blocks"]
-
-    for block in blocks:
+def extract_title_from_first_page(doc):
+    potential_titles = []
+    first_page = doc[0]
+    for block in first_page.get_text("dict")["blocks"]:
         if "lines" not in block:
             continue
         for line in block["lines"]:
             for span in line["spans"]:
                 if is_title_candidate(span, 1):
-                    title_spans.append({
+                    potential_titles.append({
                         "text": span["text"].strip(),
                         "y": span["bbox"][1],
                         "font_size": span["size"]
                     })
 
-    if not title_spans:
+    if not potential_titles:
         return ""
 
-    max_font = max(span["font_size"] for span in title_spans)
-    filtered = [s for s in title_spans if s["font_size"] >= max_font - 1]
+    max_font_size = max(span["font_size"] for span in potential_titles)
+    filtered = [s for s in potential_titles if s["font_size"] >= max_font_size - 1]
     filtered.sort(key=lambda s: s["y"])
 
-    seen = set()
-    lines = []
+    seen_texts = set()
+    combined_title = []
     for span in filtered:
-        t = span["text"]
-        if t not in seen:
-            lines.append(t)
-            seen.add(t)
+        text = span["text"]
+        if text not in seen_texts:
+            combined_title.append(text)
+            seen_texts.add(text)
 
-    return " ".join(lines)
+    return " ".join(combined_title)
 
-def is_heading_candidate(span, body_font_size, page_height):
+def is_heading(span, body_font_size, page_height):
     text = span["text"].strip()
-
     if not text or len(text) < 3:
         return False
     if text.count(" ") > 10 and not text.endswith(":"):
@@ -78,12 +75,11 @@ def is_heading_candidate(span, body_font_size, page_height):
         return False
     if span["font_size"] <= body_font_size:
         return False
-    if is_header_or_footer(span, page_height):
+    if is_header_or_footer_block(span, page_height):
         return False
-
     return True
 
-def determine_heading_level(text):
+def classify_heading_level(text):
     if re.match(r"^\d+\.\d+\.\d+\s", text):
         return "H3"
     elif re.match(r"^\d+\.\d+\s", text):
@@ -94,11 +90,11 @@ def determine_heading_level(text):
         return "H4"
     return None
 
-def extract_page_spans(doc, page_num):
-    page = doc[page_num]
+def extract_spans_from_page(doc, page_index):
+    page = doc[page_index]
     page_height = page.rect.height
     blocks = page.get_text("dict")["blocks"]
-    spans_info = []
+    spans_list = []
     font_sizes = []
 
     for block in blocks:
@@ -112,61 +108,60 @@ def extract_page_spans(doc, page_num):
             avg_width = total_width / span_count if span_count else 100
 
             for span in spans:
-                if is_header_or_footer(span, page_height):
+                if is_header_or_footer_block(span, page_height):
                     continue
 
                 span["text"] = span["text"].strip()
                 span["font_size"] = span.get("size", 0)
                 span["y"] = span["bbox"][1]
-                span["page"] = page_num + 1
+                span["page"] = page_index + 1
                 span["span_count_on_line"] = span_count
                 span["avg_span_width"] = avg_width
                 font_sizes.append(span["font_size"])
-                spans_info.append(span)
+                spans_list.append(span)
 
-    return spans_info, font_sizes
+    return spans_list, font_sizes
 
-def determine_page_heading_levels(font_sizes):
+def map_font_sizes_to_levels(font_sizes):
     if not font_sizes:
         return {}, 0
+    most_common_font = Counter(font_sizes).most_common(1)[0][0]
+    sorted_sizes = sorted(set(font_sizes), reverse=True)
+    heading_sizes = [s for s in sorted_sizes if s > most_common_font + 0.3]
 
-    body_font = Counter(font_sizes).most_common(1)[0][0]
-    sizes_sorted = sorted(set(font_sizes), reverse=True)
-    heading_sizes = [s for s in sizes_sorted if s > body_font + 0.3]
-
-    level_map = {}
+    heading_map = {}
     if len(heading_sizes) >= 1:
-        level_map[heading_sizes[0]] = "H1"
+        heading_map[heading_sizes[0]] = "H1"
     if len(heading_sizes) >= 2:
-        level_map[heading_sizes[1]] = "H2"
+        heading_map[heading_sizes[1]] = "H2"
     if len(heading_sizes) >= 3:
-        level_map[heading_sizes[2]] = "H3"
+        heading_map[heading_sizes[2]] = "H3"
 
-    return level_map, body_font
+    return heading_map, most_common_font
 
-def extract_outline(doc):
+def extract_outline_from_doc(doc):
     headings = []
-    title_text = extract_title_only(doc)
+    doc_title = extract_title_from_first_page(doc)
 
-    for page_num in range(len(doc)):
-        page = doc[page_num]
+    for page_index in range(len(doc)):
+        page = doc[page_index]
         page_height = page.rect.height
 
-        page_spans, page_font_sizes = extract_page_spans(doc, page_num)
-        page_level_map, page_body_font = determine_page_heading_levels(page_font_sizes)
+        spans, font_sizes = extract_spans_from_page(doc, page_index)
+        heading_level_map, base_font_size = map_font_sizes_to_levels(font_sizes)
 
-        for span in page_spans:
-            if not is_heading_candidate(span, page_body_font, page_height):
+        for span in spans:
+            if not is_heading(span, base_font_size, page_height):
                 continue
-            if span["page"] == 1 and span["text"].strip() in title_text:
+            if span["page"] == 1 and span["text"].strip() in doc_title:
                 continue
 
-            size = span["font_size"]
             text = span["text"]
-            level = determine_heading_level(text)
+            size = span["font_size"]
+            level = classify_heading_level(text)
 
-            if not level and size in page_level_map:
-                level = page_level_map[size]
+            if not level and size in heading_level_map:
+                level = heading_level_map[size]
 
             if level:
                 headings.append({
@@ -177,30 +172,31 @@ def extract_outline(doc):
 
     return headings
 
-def process_all_pdfs(input_dir, output_dir):
+def process_pdf_folder(input_dir, output_dir):
     start_time = time.time()
+    for filename in os.listdir(input_dir):
+        if not filename.lower().endswith(".pdf"):
+            continue
 
-    for file in os.listdir(input_dir):
-        if file.lower().endswith(".pdf"):
-            pdf_path = os.path.join(input_dir, file)
-            doc = fitz.open(pdf_path)
+        full_path = os.path.join(input_dir, filename)
+        doc = fitz.open(full_path)
 
-            title = extract_title_only(doc)
-            outline = extract_outline(doc)
+        title = extract_title_from_first_page(doc)
+        outline = extract_outline_from_doc(doc)
 
-            result = {
-                "title": title,
-                "outline": outline
-            }
+        result = {
+            "title": title,
+            "outline": outline
+        }
 
-            output_file = os.path.join(output_dir, file.replace(".pdf", ".json"))
-            with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(result, f, indent=4, ensure_ascii=False)
+        output_file_path = os.path.join(output_dir, filename.replace(".pdf", ".json"))
+        with open(output_file_path, "w", encoding="utf-8") as f:
+            json.dump(result, f, indent=4, ensure_ascii=False)
 
-    print(f"✅ Execution Time: {time.time() - start_time:.2f} seconds")
+    print(f"✅ Done in {time.time() - start_time:.2f} seconds")
 
 if __name__ == "__main__":
-    input_dir = "/app/input"
-    output_dir = "/app/output"
-    os.makedirs(output_dir, exist_ok=True)
-    process_all_pdfs(input_dir, output_dir)
+    input_path = "/app/input"
+    output_path = "/app/output"
+    os.makedirs(output_path, exist_ok=True)
+    process_pdf_folder(input_path, output_path)
