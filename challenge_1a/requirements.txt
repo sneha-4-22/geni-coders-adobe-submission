@@ -1,6 +1,1 @@
-PyMuPDF
-scikit-learn
-numpy
-joblib
-pypdf
-PyPDF2
+PyMuPDF==1.23.26
