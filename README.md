@@ -47,7 +47,7 @@ Both components are Dockerized and optimized for **offline**, **CPU-only** envir
 
 * To learn more about the **approach and techniques** used, check out the individual READMEs:
 
-  * 📄 [`challenge_1a/Readme.md`](./challenge_1a/Readme.md)
+  * 📄 [`challenge_1a/Readme.md`](./challenge_1a/README.md)
   * 📄 [`challenge_1b/README.md`](./challenge_1b/README.md)
 
 
