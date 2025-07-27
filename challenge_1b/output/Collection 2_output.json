@@ -19,26 +19,26 @@
     ],
     "persona": "HR professional",
     "job_to_be_done": "Create and manage fillable forms for onboarding and compliance.",
-    "processing_timestamp": "2025-07-26T10:14:24.984926"
+    "processing_timestamp": "2025-07-27T06:26:12.017238"
   },
   "extracted_sections": [
     {
-      "document": "Learn Acrobat - Generative AI_1.pdf",
-      "section_title": "Feedback",
+      "document": "Learn Acrobat - Fill and Sign.pdf",
+      "section_title": "Change flat forms to fillable (Acrobat Pro)",
       "importance_rank": 1,
-      "page_number": 4
+      "page_number": 12
     },
     {
       "document": "Learn Acrobat - Edit_2.pdf",
-      "section_title": "a scanned document:",
+      "section_title": "Edit Scanned PDFs",
       "importance_rank": 2,
       "page_number": 14
     },
     {
-      "document": "Learn Acrobat - Fill and Sign.pdf",
-      "section_title": "Change flat forms to fillable (Acrobat Pro)",
+      "document": "Learn Acrobat - Generative AI_1.pdf",
+      "section_title": "Feedback",
       "importance_rank": 3,
-      "page_number": 12
+      "page_number": 4
     },
     {
       "document": "Learn Acrobat - Fill and Sign.pdf",
@@ -47,173 +47,133 @@
       "page_number": 2
     },
     {
-      "document": "Learn Acrobat - Request e-signatures_1.pdf",
-      "section_title": "Certifying and signing documents",
+      "document": "Learn Acrobat - Fill and Sign.pdf",
+      "section_title": "Clear unsaved form entries",
       "importance_rank": 5,
-      "page_number": 23
+      "page_number": 15
     },
     {
       "document": "Learn Acrobat - Request e-signatures_1.pdf",
-      "section_title": "Note:",
+      "section_title": "Setting up certificate-based signatures",
       "importance_rank": 6,
       "page_number": 24
     },
     {
-      "document": "Learn Acrobat - Generative AI_1.pdf",
-      "section_title": "Overview of generative AI features",
+      "document": "Learn Acrobat - Request e-signatures_1.pdf",
+      "section_title": "Resources",
       "importance_rank": 7,
-      "page_number": 2
-    },
-    {
-      "document": "Learn Acrobat - Export_1.pdf",
-      "section_title": "The Autosave feature won’t work in the following cases:",
-      "importance_rank": 8,
-      "page_number": 4
-    },
-    {
-      "document": "Learn Acrobat - Create and Convert_1.pdf",
-      "section_title": "Acrobat Home page.",
-      "importance_rank": 9,
-      "page_number": 3
+      "page_number": 21
     },
     {
       "document": "Learn Acrobat - Request e-signatures_2.pdf",
       "section_title": "Sign in preview mode for document integrity",
-      "importance_rank": 10,
+      "importance_rank": 8,
       "page_number": 6
     },
     {
       "document": "Learn Acrobat - Export_1.pdf",
-      "section_title": "Export",
+      "section_title": "About the Autosave feature",
+      "importance_rank": 9,
+      "page_number": 4
+    },
+    {
+      "document": "Learn Acrobat - Create and Convert_1.pdf",
+      "section_title": "Create a blank PDF",
+      "importance_rank": 10,
+      "page_number": 11
+    },
+    {
+      "document": "Learn Acrobat - Generative AI_1.pdf",
+      "section_title": "Overview of generative AI features",
       "importance_rank": 11,
+      "page_number": 2
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "section_title": "Extract pages from a PDF",
+      "importance_rank": 12,
+      "page_number": 4
+    },
+    {
+      "document": "Learn Acrobat - Create and Convert_1.pdf",
+      "section_title": "Create PDFs from Word mail merges",
+      "importance_rank": 13,
+      "page_number": 27
+    },
+    {
+      "document": "Learn Acrobat - Request e-signatures_2.pdf",
+      "section_title": "Add verification information after signing",
+      "importance_rank": 14,
+      "page_number": 11
+    },
+    {
+      "document": "Learn Acrobat - Share_2.pdf",
+      "section_title": "Add an arrow, or shape",
+      "importance_rank": 15,
+      "page_number": 9
+    },
+    {
+      "document": "Learn Acrobat - Export_1.pdf",
+      "section_title": "Export",
+      "importance_rank": 16,
       "page_number": 2
     },
     {
       "document": "Learn Acrobat - Request e-signatures_2.pdf",
       "section_title": "Establish long-term signature validation",
-      "importance_rank": 12,
+      "importance_rank": 17,
       "page_number": 10
     },
     {
+      "document": "Learn Acrobat - Request e-signatures_1.pdf",
+      "section_title": "What can I do with certificate IDs?",
+      "importance_rank": 18,
+      "page_number": 20
+    },
+    {
       "document": "Learn Acrobat - Edit_2.pdf",
-      "section_title": "4. In the dialog, select one or more of the following before you select Extract :",
-      "importance_rank": 13,
-      "page_number": 4
+      "section_title": "Split PDFs into multiple documents",
+      "importance_rank": 19,
+      "page_number": 6
+    },
+    {
+      "document": "Learn Acrobat - Share_1.pdf",
+      "section_title": "using Acrobat",
+      "importance_rank": 20,
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Export_1.pdf",
+      "section_title": "Convert selected content to other formats",
+      "importance_rank": 21,
+      "page_number": 30
+    },
+    {
+      "document": "Learn Acrobat - Edit_1.pdf",
+      "section_title": "Add or edit lists",
+      "importance_rank": 22,
+      "page_number": 9
     },
     {
       "document": "Learn Acrobat - Create and Convert_1.pdf",
       "section_title": "What’s the best way to create a PDF?",
-      "importance_rank": 14,
+      "importance_rank": 23,
       "page_number": 2
     },
     {
-      "document": "Learn Acrobat - Create and Convert_2.pdf",
-      "section_title": "Add Document Information",
-      "importance_rank": 15,
-      "page_number": 16
-    },
-    {
-      "document": "Learn Acrobat - Generative AI_2.pdf",
-      "section_title": "Multiple document support in AI Assistant",
-      "importance_rank": 16,
-      "page_number": 8
-    },
-    {
-      "document": "Learn Acrobat - Share_2.pdf",
-      "section_title": "Add comments in a file attachment",
-      "importance_rank": 17,
-      "page_number": 14
-    },
-    {
       "document": "Learn Acrobat - Edit_1.pdf",
-      "section_title": "3. In the Format Text section on the left panel, select a font, font size, bold, or other",
-      "importance_rank": 18,
-      "page_number": 5
-    },
-    {
-      "document": "Learn Acrobat - Share_2.pdf",
-      "section_title": "2. Draw in the PDF:",
-      "importance_rank": 19,
-      "page_number": 9
-    },
-    {
-      "document": "Learn Acrobat - Edit_1.pdf",
-      "section_title": "4. Select a font, font size, or other formatting options in the left Format panel. You",
-      "importance_rank": 20,
+      "section_title": "Change, replace, or delete text",
+      "importance_rank": 24,
       "page_number": 4
     },
     {
-      "document": "The Ultimate PDF Sharing Checklist.pdf",
-      "section_title": "Microsoft Teams or WhatsApp?",
-      "importance_rank": 21,
-      "page_number": 1
-    },
-    {
-      "document": "Learn Acrobat - Share_1.pdf",
-      "section_title": "Share",
-      "importance_rank": 22,
-      "page_number": 2
-    },
-    {
       "document": "Learn Acrobat - Create and Convert_2.pdf",
-      "section_title": "Compliance Standard",
-      "importance_rank": 23,
-      "page_number": 8
-    },
-    {
-      "document": "Learn Acrobat - Export_2.pdf",
-      "section_title": "2. Do one of the following:",
-      "importance_rank": 24,
-      "page_number": 3
-    },
-    {
-      "document": "Learn Acrobat - Generative AI_2.pdf",
-      "section_title": "Your chat history is cleared. You see a message saying - Your chat history was cleared. To",
+      "section_title": "Create PDFs by printing to file",
       "importance_rank": 25,
-      "page_number": 3
+      "page_number": 12
     }
   ],
   "subsection_analysis": [
-    {
-      "document": "Learn Acrobat - Generative AI_1.pdf",
-      "refined_text": "Reported content, bugs, or vulnerabilities . When you report content (e.g., for being harmful, illegal, offensive, etc.), we investigate it by manually reviewing the document, prompt(s), and generated responses to make adjustments to the service to address the issue.",
-      "page_number": 4
-    },
-    {
-      "document": "Learn Acrobat - Generative AI_1.pdf",
-      "refined_text": "When you share your documents, textual prompts, and the generated responses with us when providing feedback, we take steps to filter out personal information by applying data masking procedures to this content (i.e., replacing personal information with predefined categories using Named Entity Recognition, e.g., replacing “John Smith” with “PERSON”) prior to using the content for product improvement.",
-      "page_number": 4
-    },
-    {
-      "document": "Learn Acrobat - Edit_2.pdf",
-      "refined_text": "Check the accuracy of optical character recognition (OCR) output. When you open a scanned document, Acrobat automatically runs OCR in the background to make the document editable. Before editing, review the document to ensure that the content is accurate and complete.",
-      "page_number": 14
-    },
-    {
-      "document": "Learn Acrobat - Edit_2.pdf",
-      "refined_text": "If necessary, rescan the document using the Scan & OCR > Recognize Text tool to improve the output. Enhance image quality. If the scanned PDF contains low-quality images, use the Enhance scanned file or Enhance camera image feature to improve the quality of images before attempting to edit the document.",
-      "page_number": 14
-    },
-    {
-      "document": "Learn Acrobat - Edit_2.pdf",
-      "refined_text": "For more information, see Scan documents to PDF. Use the correct font and formatting. When editing the document, ensure that the font and formatting of the edited text match the original document as closely as possible. If you don't have the desired fonts on your computer, see Add fonts to your computer. Remove security restrictions.",
-      "page_number": 14
-    },
-    {
-      "document": "Learn Acrobat - Edit_2.pdf",
-      "refined_text": "If the scanned PDF has security restrictions that prevent editing, remove these restrictions before attempting to edit the document. To know how to remove security from a PDF, see Unlock a PDF. Avoid editing complex elements.",
-      "page_number": 14
-    },
-    {
-      "document": "Learn Acrobat - Edit_2.pdf",
-      "refined_text": "If the scanned PDF contains tables, graphs, or images, avoid unnecessary edits that could alter the layout or formatting of these elements. Check for compatibility issues. Ensure that the version of Adobe Acrobat you're using is compatible with the scanned PDF. If you encounter compatibility issues, try updating Adobe Acrobat.",
-      "page_number": 14
-    },
-    {
-      "document": "Learn Acrobat - Edit_2.pdf",
-      "refined_text": "For more information, see System requirements. Save a backup copy. Always save a backup copy of the original scanned PDF before making any edits. Revert to the original document if any issues arise during the editing process.",
-      "page_number": 14
-    },
     {
       "document": "Learn Acrobat - Fill and Sign.pdf",
       "refined_text": "You can change a flat form to a fillable form by either using the Prepare Form tool or enabling the Fill & Sign tools. Acrobat and Acrobat Reader users can use the Fill & Sign tool to fill in flat forms. Interactive form To create an interactive form, use the Prepare Forms tool. See Create a form from an existing document.",
@@ -221,8 +181,48 @@
     },
     {
       "document": "Learn Acrobat - Fill and Sign.pdf",
-      "refined_text": "Flat form To enable the Fill & Sign tools, from the hamburger menu ( File menu in macOS) choose Save As Other > Acrobat Reader Extended PDF > Enable More Tools (includes.",
+      "refined_text": "Flat form To enable the Fill & Sign tools, from the hamburger menu ( File menu in macOS) choose Save As Other > Acrobat Reader Extended PDF > Enable More Tools (includes Form Fill-in & Save). The tools are enabled for the current form only. When you create a different form, redo this task to enable Acrobat Reader users to use the tools.",
       "page_number": 12
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "refined_text": "Editing a scanned PDF can be complicated if it includes low-quality text or images, non- editable text, line breaks, or complex formatting. Other inhibiting factors include compatibility issues, security restrictions, and large file sizes, which are more prevalent in PDFs created from scanned images.",
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "refined_text": "To streamline the process, consider the following best practices and guidelines before editing a scanned document: Check the accuracy of optical character recognition (OCR) output. When you open a scanned document, Acrobat automatically runs OCR in the background to make the document editable. Before editing, review the document to ensure that the content is accurate and complete.",
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "refined_text": "If necessary, rescan the document using the Scan & OCR > Recognize Text tool to improve the output. Enhance image quality. If the scanned PDF contains low-quality images, use the Enhance scanned file or Enhance camera image feature to improve the quality of images before attempting to edit the document. For more information, see Scan documents to PDF. Use the correct font and formatting.",
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "refined_text": "When editing the document, ensure that the font and formatting of the edited text match the original document as closely as possible. If you don't have the desired fonts on your computer, see Add fonts to your computer. Remove security restrictions. If the scanned PDF has security restrictions that prevent editing, remove these restrictions before attempting to edit the document.",
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "refined_text": "To know how to remove security from a PDF, see Unlock a PDF. Avoid editing complex elements. If the scanned PDF contains tables, graphs, or images, avoid unnecessary edits that could alter the layout or formatting of these elements. Check for compatibility issues. Ensure that the version of Adobe Acrobat you're using is compatible with the scanned PDF.",
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Edit_2.pdf",
+      "refined_text": "If you encounter compatibility issues, try updating Adobe Acrobat. For more information, see System requirements. Save a backup copy. Always save a backup copy of the original scanned PDF before making any edits. Revert to the original document if any issues arise during the editing process.",
+      "page_number": 14
+    },
+    {
+      "document": "Learn Acrobat - Generative AI_1.pdf",
+      "refined_text": "Reported content, bugs, or vulnerabilities . When you report content (e.g., for being harmful, illegal, offensive, etc.), we investigate it by manually reviewing the document, prompt(s), and generated responses to make adjustments to the service to address the issue.",
+      "page_number": 4
+    },
+    {
+      "document": "Learn Acrobat - Generative AI_1.pdf",
+      "refined_text": "User-Provided Feedback . For Acrobat Individual users* and Acrobat Reader users that provide feedback, you have the option to share with us your document, prompt(s), and generated responses during a document session for product improvement",
+      "page_number": 4
     },
     {
       "document": "Learn Acrobat - Fill and Sign.pdf",
@@ -230,13 +230,13 @@
       "page_number": 2
     },
     {
-      "document": "Learn Acrobat - Request e-signatures_1.pdf",
-      "refined_text": "1) is in compliance with Part 4 of the PAdES standard. The default signing format, when set up accordingly, is compliant with Part 2 of the PAdES standard. You can change the default signing method or format, in the Signatures panel of the Preferences dialog box. Under Creation & Appearance, click More.",
-      "page_number": 23
+      "document": "Learn Acrobat - Fill and Sign.pdf",
+      "refined_text": "Flat forms : These do not have interactive fields. It could be a paper form or PDF that hasn’t been optimized for form filling. The Fill & Sign tool automatically detects the form fields like text fields, comb fields, checkboxes, and radio buttons. You can manually add text and other symbols anywhere on the form using the Fill & Sign tool if required. You can complete the forms by entering information and adding your signatures. Acrobat also allows you to send your completed forms to others and securely save them in Adobe cloud storage.",
+      "page_number": 2
     },
     {
       "document": "Learn Acrobat - Request e-signatures_1.pdf",
-      "refined_text": "Some situations require using particular digital IDs for signing. For example, a corporation or government agency can require individuals to use only digital IDs issued by that agency to sign official documents. Inquire about the digital signature policies of your organization to determine the appropriate source of your digital ID.",
+      "refined_text": "You can expedite the signing process and optimize your results by making the following preparations in advance. Note: Some situations require using particular digital IDs for signing. For example, a corporation or government agency can require individuals to use only digital IDs issued by that agency to sign official documents. Inquire about the digital signature policies of your organization to determine the appropriate source of your digital ID.",
       "page_number": 24
     },
     {
@@ -261,18 +261,18 @@
     },
     {
       "document": "Learn Acrobat - Request e-signatures_1.pdf",
-      "refined_text": "Configure the signing application. Both authors and signers should configure their application environment. (See Set signing preferences ). For details on the full range of configuration options in enterprise settings, see the Digital Signatures Guide .",
+      "refined_text": "Configure the signing application. Both authors and signers should configure their application environment. (See Set signing preferences ).",
       "page_number": 24
     },
     {
-      "document": "Learn Acrobat - Request e-signatures_1.pdf",
-      "refined_text": "Choose a signature type. Learn about approval and certification signatures to determine the type you should choose to sign your document. (See Signature types .)",
-      "page_number": 24
+      "document": "Learn Acrobat - Request e-signatures_2.pdf",
+      "refined_text": "When document integrity is critical for your signature workflow, you can enable 'View documents in Preview mode', and then sign the document. This feature analyzes the document for content that may alter the look and feel of the document and suppresses such content to allow you to view and sign the document in a static and secure state. By signing in preview mode, you can f ind if the document contains:",
+      "page_number": 6
     },
     {
-      "document": "Learn Acrobat - Generative AI_1.pdf",
-      "refined_text": "Use the generative AI features in Acrobat and Acrobat Reader to quickly scan through lengthy, complex PDF content and get answers or generate a summary. Note: The generative AI features in Acrobat and Acrobat Reader support English, French, German, Spanish, Italian, Portuguese, or Japanese.",
-      "page_number": 2
+      "document": "Learn Acrobat - Request e-signatures_2.pdf",
+      "refined_text": "Any constructs such as form fields, multimedia, or JavaScript™ that may affect its look and feel. After reviewing the report, you can contact the author of the document about the problems listed in the report.",
+      "page_number": 6
     }
   ]
 }

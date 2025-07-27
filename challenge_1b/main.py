@@ -2,11 +2,179 @@ import fitz
 import os
 import json
 import time
+import string
 import re
 from collections import defaultdict, Counter
 from datetime import datetime
-import math
 
+
+def is_header_or_footer_block(span, page_height, header_limit=50, footer_limit=50):
+    y_position = span["bbox"][1]
+    return y_position <= header_limit or y_position >= (page_height - footer_limit)
+
+def is_title_candidate(span, page_number):
+    if page_number != 1:
+        return False
+
+    text = span['text'].strip()
+    if not text or not any(c.isalpha() for c in text):
+        return False
+    if sum(1 for c in text if c in string.punctuation) / len(text) > 0.6:
+        return False
+    if re.fullmatch(r'[^A-Za-z0-9؀-ۿऀ-ॿ一-鿿]{3,}', text):
+        return False
+    lower_text = text.lower()
+    if any(domain in lower_text for domain in ["www.", ".com", ".org", ".net"]):
+        return False
+    if text.isupper() and len(text.split()) <= 5:
+        return False
+
+    bbox_width = span['bbox'][2] - span['bbox'][0]
+    font_size = span.get("size", 0)
+    return font_size >= 10 and bbox_width >= 100
+
+def extract_title_from_first_page(doc):
+    potential_titles = []
+    first_page = doc[0]
+    for block in first_page.get_text("dict")["blocks"]:
+        if "lines" not in block:
+            continue
+        for line in block["lines"]:
+            for span in line["spans"]:
+                if is_title_candidate(span, 1):
+                    potential_titles.append({
+                        "text": span["text"].strip(),
+                        "y": span["bbox"][1],
+                        "font_size": span["size"]
+                    })
+
+    if not potential_titles:
+        return ""
+
+    max_font_size = max(span["font_size"] for span in potential_titles)
+    filtered = [s for s in potential_titles if s["font_size"] >= max_font_size - 1]
+    filtered.sort(key=lambda s: s["y"])
+
+    seen_texts = set()
+    combined_title = []
+    for span in filtered:
+        text = span["text"]
+        if text not in seen_texts:
+            combined_title.append(text)
+            seen_texts.add(text)
+
+    return " ".join(combined_title)
+
+def is_heading(span, body_font_size, page_height):
+    text = span["text"].strip()
+    if not text or len(text) < 3:
+        return False
+    if text.count(" ") > 10 and not text.endswith(":"):
+        return False
+    if span.get("span_count_on_line", 1) > 6:
+        return False
+    if span.get("avg_span_width", 100) < 40:
+        return False
+    if span["font_size"] <= body_font_size:
+        return False
+    if is_header_or_footer_block(span, page_height):
+        return False
+    return True
+
+def classify_heading_level(text):
+    if re.match(r"^\d+\.\d+\.\d+\s", text):
+        return "H3"
+    elif re.match(r"^\d+\.\d+\s", text):
+        return "H2"
+    elif re.match(r"^\d+\s", text):
+        return "H1"
+    elif text.endswith(":") and len(text.split()) <= 8 and not text[0].islower():
+        return "H4"
+    return None
+
+def extract_spans_from_page(doc, page_index):
+    page = doc[page_index]
+    page_height = page.rect.height
+    blocks = page.get_text("dict")["blocks"]
+    spans_list = []
+    font_sizes = []
+
+    for block in blocks:
+        if "lines" not in block:
+            continue
+        for line in block["lines"]:
+            spans = line["spans"]
+            clean_spans = [s["text"].strip() for s in spans if s["text"].strip()]
+            span_count = len(clean_spans)
+            total_width = sum(s["bbox"][2] - s["bbox"][0] for s in spans)
+            avg_width = total_width / span_count if span_count else 100
+
+            for span in spans:
+                if is_header_or_footer_block(span, page_height):
+                    continue
+
+                span["text"] = span["text"].strip()
+                span["font_size"] = span.get("size", 0)
+                span["y"] = span["bbox"][1]
+                span["page"] = page_index + 1
+                span["span_count_on_line"] = span_count
+                span["avg_span_width"] = avg_width
+                font_sizes.append(span["font_size"])
+                spans_list.append(span)
+
+    return spans_list, font_sizes
+
+def map_font_sizes_to_levels(font_sizes):
+    if not font_sizes:
+        return {}, 0
+    most_common_font = Counter(font_sizes).most_common(1)[0][0]
+    sorted_sizes = sorted(set(font_sizes), reverse=True)
+    heading_sizes = [s for s in sorted_sizes if s > most_common_font + 0.3]
+
+    heading_map = {}
+    if len(heading_sizes) >= 1:
+        heading_map[heading_sizes[0]] = "H1"
+    if len(heading_sizes) >= 2:
+        heading_map[heading_sizes[1]] = "H2"
+    if len(heading_sizes) >= 3:
+        heading_map[heading_sizes[2]] = "H3"
+
+    return heading_map, most_common_font
+
+def extract_outline_from_doc(doc):
+    headings = []
+    doc_title = extract_title_from_first_page(doc)
+
+    for page_index in range(len(doc)):
+        page = doc[page_index]
+        page_height = page.rect.height
+
+        spans, font_sizes = extract_spans_from_page(doc, page_index)
+        heading_level_map, base_font_size = map_font_sizes_to_levels(font_sizes)
+
+        for span in spans:
+            if not is_heading(span, base_font_size, page_height):
+                continue
+            if span["page"] == 1 and span["text"].strip() in doc_title:
+                continue
+
+            text = span["text"]
+            size = span["font_size"]
+            level = classify_heading_level(text)
+
+            if not level and size in heading_level_map:
+                level = heading_level_map[size]
+
+            if level:
+                headings.append({
+                    "level": level,
+                    "text": text,
+                    "page": span["page"]
+                })
+
+    return headings
+
+# Challenge 1B Enhanced Analyzer
 class PersonaDrivenAnalyzer:
     def __init__(self):
         self.importance_keywords = {}
@@ -25,7 +193,7 @@ class PersonaDrivenAnalyzer:
         persona_text = persona.get('role', '').lower()
         job_text = job_to_be_done.get('task', '').lower()
         
-        # Travel planner - enhanced keywords for comprehensive coverage
+        # Travel planner keywords
         if 'travel' in persona_text or 'planner' in persona_text:
             keywords['high'].extend([
                 'cities', 'accommodation', 'hotel', 'restaurant', 'attraction', 'transport', 
@@ -37,164 +205,123 @@ class PersonaDrivenAnalyzer:
             
         # Academic/Research personas
         elif any(word in persona_text for word in ['researcher', 'phd', 'academic', 'scientist']):
-            keywords['high'].extend(['methodology', 'results', 'conclusion', 'abstract', 'literature', 'analysis', 'experiment', 'data', 'findings', 'discussion'])
+            keywords['high'].extend([
+                'methodology', 'results', 'conclusion', 'abstract', 'literature', 
+                'analysis', 'experiment', 'data', 'findings', 'discussion', 'review',
+                'benchmarks', 'performance', 'datasets', 'models', 'algorithms'
+            ])
             
         # Business/Investment personas
         elif any(word in persona_text for word in ['analyst', 'investment', 'business', 'financial']):
-            keywords['high'].extend(['revenue', 'profit', 'financial', 'market', 'growth', 'investment', 'performance', 'strategy', 'competitive', 'analysis'])
+            keywords['high'].extend([
+                'revenue', 'profit', 'financial', 'market', 'growth', 'investment', 
+                'performance', 'strategy', 'competitive', 'analysis', 'trends',
+                'positioning', 'r&d', 'annual', 'reports'
+            ])
             
         # Student personas
         elif any(word in persona_text for word in ['student', 'undergraduate', 'learner']):
-            keywords['high'].extend(['introduction', 'basics', 'fundamentals', 'concepts', 'examples', 'practice', 'exercises', 'summary'])
+            keywords['high'].extend([
+                'introduction', 'basics', 'fundamentals', 'concepts', 'examples', 
+                'practice', 'exercises', 'summary', 'key', 'mechanisms', 'kinetics',
+                'exam', 'preparation', 'study'
+            ])
             
         # HR Professional
         elif 'hr' in persona_text or 'human resources' in persona_text:
-            keywords['high'].extend(['form', 'onboarding', 'compliance', 'policy', 'procedure', 'document', 'workflow', 'process'])
+            keywords['high'].extend([
+                'form', 'onboarding', 'compliance', 'policy', 'procedure', 
+                'document', 'workflow', 'process'
+            ])
             
         # Food/Catering
         elif any(word in persona_text for word in ['food', 'contractor', 'chef', 'catering']):
-            keywords['high'].extend(['recipe', 'ingredient', 'cooking', 'preparation', 'menu', 'vegetarian', 'buffet', 'serving'])
+            keywords['high'].extend([
+                'recipe', 'ingredient', 'cooking', 'preparation', 'menu', 
+                'vegetarian', 'buffet', 'serving'
+            ])
         
         # Job-specific keywords from task description
         job_words = re.findall(r'\b\w{3,}\b', job_text)
         keywords['medium'].extend([word.lower() for word in job_words if len(word) > 3])
         
-        # Add numbers for group planning
-        if any(word in job_text for word in ['group', 'friends', 'people']):
-            keywords['medium'].extend(['group', 'friends', 'people', 'party', 'together'])
-        
         self.importance_keywords = dict(keywords)
     
-    def extract_text_with_structure(self, doc):
-        """Extract text with structural information"""
-        document_content = []
+    def extract_enhanced_sections_from_doc(self, doc, doc_name):
+        """Extract sections using Challenge 1A logic + enhanced text extraction"""
+        # Get title using Challenge 1A
+        title = extract_title_from_first_page(doc)
+        
+        sections = []
         
         for page_num in range(len(doc)):
             page = doc[page_num]
-            blocks = page.get_text("dict")["blocks"]
-            page_content = []
+            page_height = page.rect.height
+            spans, font_sizes = extract_spans_from_page(doc, page_num)
+            heading_level_map, base_font_size = map_font_sizes_to_levels(font_sizes)
             
-            for block in blocks:
-                if "lines" not in block:
+            current_section = None
+            section_content = []
+            
+            for span in spans:
+                text = span["text"].strip()
+                if not text:
                     continue
-                    
-                for line in block["lines"]:
-                    line_text = ""
-                    font_sizes = []
-                    
-                    for span in line["spans"]:
-                        text = span["text"].strip()
-                        if text:
-                            line_text += text + " "
-                            font_sizes.append(span.get("size", 12))
-                    
-                    if line_text.strip():
-                        avg_font_size = sum(font_sizes) / len(font_sizes) if font_sizes else 12
-                        page_content.append({
-                            "text": line_text.strip(),
-                            "font_size": avg_font_size,
-                            "bbox": block.get("bbox", [0, 0, 0, 0]),
-                            "page": page_num + 1
-                        })
-            
-            document_content.append(page_content)
-        
-        return document_content
-    
-    def identify_sections(self, document_content, doc_name):
-        """Identify sections in the document with improved detection"""
-        sections = []
-        all_font_sizes = []
-        
-        # Collect all font sizes to determine heading thresholds
-        for page_content in document_content:
-            for line in page_content:
-                all_font_sizes.append(line["font_size"])
-        
-        if not all_font_sizes:
-            return sections
-            
-        font_counter = Counter(all_font_sizes)
-        body_font = font_counter.most_common(1)[0][0]
-        heading_threshold = body_font + 0.5  # Lower threshold for better detection
-        
-        current_section = None
-        section_content = []
-        
-        for page_content in document_content:
-            for line in page_content:
-                text = line["text"]
-                font_size = line["font_size"]
-                page_num = line["page"]
                 
-                # Enhanced heading detection
-                is_heading = (
-                    font_size >= heading_threshold or
-                    any(re.match(pattern, text) for pattern in self.section_patterns) or
-                    (len(text) < 150 and text.strip().endswith(':')) or  # Section headers ending with :
-                    (len(text) < 100 and text.isupper() and len(text.split()) <= 10) or
-                    (text.strip().startswith(('Chapter', 'Section', 'Part', 'Guide to', 'Introduction to'))) or
-                    (re.match(r'^[A-Z][a-z]+ [A-Z][a-z]+', text) and len(text.split()) <= 6)  # Title Case headings
-                )
-                
-                # Additional check for travel-specific headings
-                travel_headings = [
-                    'cities', 'restaurants', 'hotels', 'activities', 'attractions', 'nightlife',
-                    'entertainment', 'beaches', 'cuisine', 'food', 'dining', 'accommodation',
-                    'transport', 'getting around', 'tips', 'tricks', 'packing', 'budget',
-                    'itinerary', 'things to do', 'must see', 'must visit', 'experiences',
-                    'adventures', 'coastal', 'culture', 'traditions', 'history'
-                ]
-                
-                if any(keyword in text.lower() for keyword in travel_headings):
-                    if len(text) < 200 and len(text) > 10:  # Reasonable heading length
-                        is_heading = True
-                
-                if is_heading and len(text.strip()) > 3:
+                # Check if this is a heading using Challenge 1A logic
+                if is_heading(span, base_font_size, page_height):
                     # Save previous section
                     if current_section and section_content:
                         current_section["content"] = " ".join(section_content)
                         sections.append(current_section)
                     
                     # Start new section
+                    level = classify_heading_level(text)
+                    if not level and span["font_size"] in heading_level_map:
+                        level = heading_level_map[span["font_size"]]
+                    
                     current_section = {
                         "document": doc_name,
-                        "section_title": text.strip(),
-                        "page_number": page_num,
-                        "font_size": font_size
+                        "section_title": text,
+                        "page_number": page_num + 1,
+                        "font_size": span["font_size"],
+                        "level": level or "H1"
                     }
                     section_content = []
                 else:
                     # Add to current section content
                     if current_section:
                         section_content.append(text)
-                    elif not sections:  # If no section started yet, create a default one
+                    elif not sections:  # First content without heading
                         current_section = {
                             "document": doc_name,
                             "section_title": f"Introduction - {doc_name.replace('.pdf', '')}",
-                            "page_number": page_num,
-                            "font_size": font_size
+                            "page_number": page_num + 1,
+                            "font_size": base_font_size,
+                            "level": "H1"
                         }
                         section_content = [text]
+            
+            # Don't forget the last section on the page
+            if current_section and section_content:
+                current_section["content"] = " ".join(section_content)
+                sections.append(current_section)
+                current_section = None
+                section_content = []
         
-        # Don't forget the last section
-        if current_section and section_content:
-            current_section["content"] = " ".join(section_content)
-            sections.append(current_section)
-        
-        return sections
+        return sections, title
     
     def calculate_importance_score(self, section):
-        """Calculate importance score with enhanced logic"""
+        """Calculate importance score based on persona keywords"""
         title = section.get("section_title", "").lower()
         content = section.get("content", "").lower()
         text = title + " " + content
         
         score = 0
         
-        # High importance keywords (3x multiplier)
+        # High importance keywords (5x multiplier for title, 3x for content)
         for keyword in self.importance_keywords.get('high', []):
-            title_matches = title.count(keyword.lower()) * 5  # Extra bonus for title matches
+            title_matches = title.count(keyword.lower()) * 5
             content_matches = content.count(keyword.lower()) * 3
             score += title_matches + content_matches
         
@@ -202,41 +329,23 @@ class PersonaDrivenAnalyzer:
         for keyword in self.importance_keywords.get('medium', []):
             score += text.count(keyword.lower()) * 2
         
-        # Travel-specific bonuses
-        travel_priority_terms = {
-            'cities': 8, 'guide': 6, 'comprehensive': 5, 'activities': 7, 'things to do': 8,
-            'nightlife': 6, 'entertainment': 6, 'restaurants': 7, 'dining': 6,
-            'accommodation': 7, 'hotels': 7, 'tips': 6, 'tricks': 5, 'packing': 5,
-            'coastal': 7, 'adventures': 7, 'beaches': 7, 'experiences': 6
-        }
-        
-        for term, bonus in travel_priority_terms.items():
-            if term in title:
-                score += bonus
-            elif term in content[:500]:  # Early content gets bonus
-                score += bonus * 0.5
-        
         # Content quality bonuses
         content_length = len(content)
-        if content_length > 500:
-            score += min(content_length / 500, 3)  # Up to 3 bonus points for length
+        if content_length > 300:
+            score += min(content_length / 300, 3)
         
-        # Early document position bonus (important sections often come first)
-        page_bonus = max(0, 4 - (section.get("page_number", 1) * 0.3))
+        # Early document position bonus
+        page_bonus = max(0, 3 - (section.get("page_number", 1) * 0.2))
         score += page_bonus
         
-        # Diversity bonus - prefer different document types
-        doc_name = section.get("document", "").lower()
-        if 'cities' in doc_name:
+        # Heading level bonus (H1 > H2 > H3)
+        level = section.get("level", "H1")
+        if level == "H1":
             score += 2
-        elif 'things' in doc_name or 'activities' in doc_name:
-            score += 2
-        elif 'tips' in doc_name or 'tricks' in doc_name:
+        elif level == "H2":
             score += 1.5
-        elif 'nightlife' in doc_name or 'entertainment' in doc_name:
-            score += 1.5
-        elif 'restaurants' in doc_name or 'hotels' in doc_name:
-            score += 1.5
+        elif level == "H3":
+            score += 1
         
         return score
     
@@ -244,9 +353,9 @@ class PersonaDrivenAnalyzer:
         """Extract diverse subsections from top sections"""
         subsections = []
         doc_coverage = defaultdict(int)
-        max_per_doc = 3  # Limit per document for diversity
+        max_per_doc = 4
         
-        for section in sections[:15]:  # Process top 15 sections
+        for section in sections[:15]:
             if doc_coverage[section["document"]] >= max_per_doc:
                 continue
                 
@@ -255,7 +364,6 @@ class PersonaDrivenAnalyzer:
                 continue
             
             # Split content into meaningful chunks
-            # First try to split by bullet points or numbered lists
             if '•' in content or re.search(r'\d+\.', content):
                 chunks = re.split(r'[•▪◦]|\d+\.', content)
             else:
@@ -269,7 +377,7 @@ class PersonaDrivenAnalyzer:
                     if not sentence:
                         continue
                         
-                    if len(current_chunk) + len(sentence) < 350:
+                    if len(current_chunk) + len(sentence) < 400:
                         current_chunk += sentence + ". "
                     else:
                         if current_chunk.strip():
@@ -285,7 +393,7 @@ class PersonaDrivenAnalyzer:
                 if len(subsections) >= max_subsections:
                     break
                     
-                if len(chunk) > 50 and len(chunk) < 500:  # Good chunk size
+                if len(chunk) > 50 and len(chunk) < 600:
                     subsections.append({
                         "document": section["document"],
                         "refined_text": chunk,
@@ -299,8 +407,7 @@ class PersonaDrivenAnalyzer:
         return subsections[:max_subsections]
     
     def process_document_collection(self, input_file_path):
-        """Process a collection of documents based on input JSON"""
-        
+        """Main processing function"""
         # Read input configuration
         with open(input_file_path, 'r', encoding='utf-8') as f:
             config = json.load(f)
@@ -325,8 +432,7 @@ class PersonaDrivenAnalyzer:
                 
             try:
                 doc = fitz.open(pdf_path)
-                document_content = self.extract_text_with_structure(doc)
-                sections = self.identify_sections(document_content, filename)
+                sections, title = self.extract_enhanced_sections_from_doc(doc, filename)
                 
                 # Calculate importance scores
                 for section in sections:
@@ -339,26 +445,23 @@ class PersonaDrivenAnalyzer:
                 print(f"Error processing {filename}: {e}")
                 continue
         
-        # Sort sections by importance and assign ranks
+        # Sort sections by importance
         all_sections.sort(key=lambda x: x["importance_score"], reverse=True)
         
-        # Prepare extracted sections with better diversity
+        # Prepare extracted sections with diversity
         extracted_sections = []
         seen_titles = set()
         doc_coverage = defaultdict(int)
-        max_per_doc = 2  # Limit sections per document for diversity
+        max_per_doc = 3
         
-        for i, section in enumerate(all_sections, 1):
+        for section in all_sections:
             title = section["section_title"].strip()
             doc_name = section["document"]
-            
-            # Skip if title too similar to existing ones
             title_lower = title.lower()
-            is_duplicate = False
-            for seen_title in seen_titles:
-                if (title_lower in seen_title.lower() or seen_title.lower() in title_lower) and len(title_lower) > 10:
-                    is_duplicate = True
-                    break
+            
+            # Skip duplicates and enforce diversity
+            is_duplicate = any(title_lower in seen.lower() or seen.lower() in title_lower 
+                             for seen in seen_titles if len(title_lower) > 10)
             
             if (not is_duplicate and 
                 len(title) > 3 and 
@@ -377,7 +480,7 @@ class PersonaDrivenAnalyzer:
             if len(extracted_sections) >= 25:
                 break
         
-        # Generate diverse subsection analysis
+        # Generate subsection analysis
         subsection_analysis = self.extract_subsections(all_sections)
         
         # Prepare output
@@ -401,7 +504,6 @@ def main():
     output_dir = "/app/output"
     
     os.makedirs(output_dir, exist_ok=True)
-    
     start_time = time.time()
     
     # Look for challenge1b_input.json files in subdirectories

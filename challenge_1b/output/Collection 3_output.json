@@ -13,158 +13,159 @@
     ],
     "persona": "Food Contractor",
     "job_to_be_done": "Prepare a vegetarian buffet-style dinner menu for a corporate gathering, including gluten-free items.",
-    "processing_timestamp": "2025-07-26T10:14:30.463314"
+    "processing_timestamp": "2025-07-27T06:26:17.309387"
   },
   "extracted_sections": [
     {
       "document": "Breakfast Ideas.pdf",
-      "section_title": "Instructions:",
+      "section_title": "In another bowl, combine buttermilk, egg, melted butter, and vanilla extract.",
       "importance_rank": 1,
+      "page_number": 2
+    },
+    {
+      "document": "Dinner Ideas - Sides_2.pdf",
+      "section_title": "Freekeh Salad",
+      "importance_rank": 2,
+      "page_number": 10
+    },
+    {
+      "document": "Dinner Ideas - Sides_1.pdf",
+      "section_title": "Introduction - Dinner Ideas - Sides_1",
+      "importance_rank": 3,
+      "page_number": 2
+    },
+    {
+      "document": "Breakfast Ideas.pdf",
+      "section_title": "In another bowl, combine milk, vegetable oil, egg, and vanilla extract.",
+      "importance_rank": 4,
       "page_number": 8
+    },
+    {
+      "document": "Dinner Ideas - Mains_1.pdf",
+      "section_title": "Spaghetti for serving",
+      "importance_rank": 5,
+      "page_number": 3
+    },
+    {
+      "document": "Dinner Ideas - Sides_4.pdf",
+      "section_title": "Combine all ingredients in a bowl.",
+      "importance_rank": 6,
+      "page_number": 4
+    },
+    {
+      "document": "Dinner Ideas - Sides_3.pdf",
+      "section_title": "Transfer labneh to a serving dish and drizzle with olive oil.",
+      "importance_rank": 7,
+      "page_number": 6
+    },
+    {
+      "document": "Dinner Ideas - Mains_2.pdf",
+      "section_title": "Tortillas for serving",
+      "importance_rank": 8,
+      "page_number": 8
+    },
+    {
+      "document": "Dinner Ideas - Mains_3.pdf",
+      "section_title": "Buns for serving",
+      "importance_rank": 9,
+      "page_number": 8
+    },
+    {
+      "document": "Dinner Ideas - Sides_4.pdf",
+      "section_title": "Tear flatbread into pieces and place in a serving dish.",
+      "importance_rank": 10,
+      "page_number": 9
+    },
+    {
+      "document": "Dinner Ideas - Mains_1.pdf",
+      "section_title": "Cooked rice for serving",
+      "importance_rank": 11,
+      "page_number": 11
     },
     {
       "document": "Dinner Ideas - Mains_2.pdf",
       "section_title": "Ingredients:",
-      "importance_rank": 2,
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Sides_2.pdf",
-      "section_title": "Ingredients :",
-      "importance_rank": 3,
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Mains_3.pdf",
-      "section_title": "1 teaspoon grated ginger",
-      "importance_rank": 4,
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Sides_2.pdf",
-      "section_title": "Instructions :",
-      "importance_rank": 5,
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Mains_1.pdf",
-      "section_title": "1 teaspoon paprika",
-      "importance_rank": 6,
-      "page_number": 2
-    },
-    {
-      "document": "Dinner Ideas - Mains_1.pdf",
-      "section_title": "1 teaspoon dried basil",
-      "importance_rank": 7,
-      "page_number": 3
-    },
-    {
-      "document": "Dinner Ideas - Mains_2.pdf",
-      "section_title": "2 tablespoons vegetable oil",
-      "importance_rank": 8,
-      "page_number": 3
-    },
-    {
-      "document": "Lunch Ideas.pdf",
-      "section_title": "1 celery stalk, diced",
-      "importance_rank": 9,
-      "page_number": 3
-    },
-    {
-      "document": "Breakfast Ideas.pdf",
-      "section_title": "1 large flour tortilla",
-      "importance_rank": 10,
-      "page_number": 4
-    },
-    {
-      "document": "Dinner Ideas - Mains_3.pdf",
-      "section_title": "2 tablespoons butter",
-      "importance_rank": 11,
-      "page_number": 4
-    },
-    {
-      "document": "Dinner Ideas - Sides_3.pdf",
-      "section_title": "Introduction - Dinner Ideas - Sides_3",
       "importance_rank": 12,
       "page_number": 1
     },
     {
-      "document": "Dinner Ideas - Sides_4.pdf",
-      "section_title": "Introduction - Dinner Ideas - Sides_4",
+      "document": "Dinner Ideas - Sides_2.pdf",
+      "section_title": "Churros",
       "importance_rank": 13,
       "page_number": 1
     },
     {
-      "document": "Lunch Ideas.pdf",
-      "section_title": "1 teaspoon sesame oil",
+      "document": "Dinner Ideas - Sides_2.pdf",
+      "section_title": "Coconut Rice",
       "importance_rank": 14,
-      "page_number": 7
-    },
-    {
-      "document": "Dinner Ideas - Sides_4.pdf",
-      "section_title": "tender.",
-      "importance_rank": 15,
-      "page_number": 9
+      "page_number": 1
     },
     {
       "document": "Dinner Ideas - Sides_3.pdf",
-      "section_title": "turmeric, and salt.",
+      "section_title": "Stir in chopped cilantro and serve warm.",
+      "importance_rank": 15,
+      "page_number": 1
+    },
+    {
+      "document": "Dinner Ideas - Sides_3.pdf",
+      "section_title": "Hot and Sour Soup",
       "importance_rank": 16,
       "page_number": 1
     },
     {
-      "document": "Dinner Ideas - Sides_1.pdf",
-      "section_title": "Acarajé",
+      "document": "Dinner Ideas - Sides_4.pdf",
+      "section_title": "Pajeon (Pancakes)",
       "importance_rank": 17,
-      "page_number": 2
+      "page_number": 1
     },
     {
       "document": "Dinner Ideas - Sides_1.pdf",
       "section_title": "Agedashi Tofu",
       "importance_rank": 18,
       "page_number": 2
+    },
+    {
+      "document": "Dinner Ideas - Sides_1.pdf",
+      "section_title": "Aloo Gobi",
+      "importance_rank": 19,
+      "page_number": 2
+    },
+    {
+      "document": "Dinner Ideas - Mains_1.pdf",
+      "section_title": "Let rest before slicing and serving.",
+      "importance_rank": 20,
+      "page_number": 14
+    },
+    {
+      "document": "Dinner Ideas - Mains_2.pdf",
+      "section_title": "Introduction - Dinner Ideas - Mains_2",
+      "importance_rank": 21,
+      "page_number": 1
+    },
+    {
+      "document": "Dinner Ideas - Mains_3.pdf",
+      "section_title": "Introduction - Dinner Ideas - Mains_3",
+      "importance_rank": 22,
+      "page_number": 1
+    },
+    {
+      "document": "Dinner Ideas - Mains_3.pdf",
+      "section_title": "Preheat oven to 300°F (150°C).",
+      "importance_rank": 23,
+      "page_number": 6
+    },
+    {
+      "document": "Breakfast Ideas.pdf",
+      "section_title": "1 cup all-purpose flour",
+      "importance_rank": 24,
+      "page_number": 2
+    },
+    {
+      "document": "Lunch Ideas.pdf",
+      "section_title": "1 whole wheat tortilla",
+      "importance_rank": 25,
+      "page_number": 2
     }
   ],
-  "subsection_analysis": [
-    {
-      "document": "Breakfast Ideas.pdf",
-      "refined_text": "In a bowl, mix flour, sugar, baking powder, and salt.",
-      "page_number": 8
-    },
-    {
-      "document": "Breakfast Ideas.pdf",
-      "refined_text": "In another bowl, combine milk, vegetable oil, egg, and vanilla extract.",
-      "page_number": 8
-    },
-    {
-      "document": "Breakfast Ideas.pdf",
-      "refined_text": "Pour the wet ingredients into the dry ingredients and stir until just combined.",
-      "page_number": 8
-    },
-    {
-      "document": "Breakfast Ideas.pdf",
-      "refined_text": "Bake for 20-25 minutes or until a toothpick inserted into the center comes out clean.",
-      "page_number": 8
-    },
-    {
-      "document": "Dinner Ideas - Sides_2.pdf",
-      "refined_text": "o 1 cup water o 1/2 cup butter o 1 cup flour o 3 eggs o 1/4 cup sugar o 1 teaspoon cinnamon o Oil for frying",
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Sides_2.pdf",
-      "refined_text": "o 1 small cabbage o 2 carrots o 1/2 cup mayonnaise o 2 tablespoons apple cider vinegar o 1 tablespoon sugar o 1 teaspoon salt",
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Sides_3.pdf",
-      "refined_text": "o 4 cups chicken broth o 1/2 cup sliced mushrooms o 1/4 cup bamboo shoots o 1/4 cup tofu o 2 tablespoons soy sauce o 2 tablespoons rice vinegar o 1 tablespoon cornstarch o 1 teaspoon chili paste o 1 egg o 1/4 cup chopped green onions",
-      "page_number": 1
-    },
-    {
-      "document": "Dinner Ideas - Sides_4.pdf",
-      "refined_text": "o 1 pound paneer o 1/2 cup yogurt o 1 tablespoon lemon juice o 1 teaspoon cumin o 1 teaspoon coriander o 1 teaspoon garam masala o 1 teaspoon turmeric o 1 teaspoon salt o Skewers",
-      "page_number": 1
-    }
-  ]
+  "subsection_analysis": []
 }
