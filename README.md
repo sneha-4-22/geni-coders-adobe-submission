@@ -1,6 +1,6 @@
 
 
-# Adobe India Hackathon – Round 2 Solution by Geni Coders 🚀
+# Adobe India Hackathon – Round 2 Solution by Geni Coders 👩🏻‍💻
 
 Welcome to our Round 2 submission for the **Adobe India Hackathon - "Connecting the Dots" Challenge**!
 This repository showcases our full pipeline across both Round 1A and 1B, focusing on building intelligent, structured, and user-focused PDF experiences.
