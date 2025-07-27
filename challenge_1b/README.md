@@ -143,6 +143,26 @@ Saved to `output/` as `<collection_name>_output.json`:
 
 ---
 
+
+### 📊 Challenge 1B – Requirement vs Our Solution
+
+| Aspect                    | Requirement (from Hackathon Doc)                                                                                                           | Our Solution (Team Geni Coders)                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| **Goal**                  | Extract **most relevant sections** (based on persona + job-to-be-done) from a **collection of PDFs** and return them in a structured JSON. | Analyzes persona & job context → scores document sections → returns top 25 sections + top 20 short refined chunks. |
+| **Input**                 | A **JSON input file** with persona, job description, and list of 3–10 PDFs (max 500 pages total).                                          | Accepts `challenge1b_input.json` with PDFs placed in subfolder `/PDFs/`.                                           |
+| **Output Format**         | JSON with metadata, selected sections (ranked), and short relevant passages.                                                               | Outputs clean JSON with metadata, top sections, and \~20 refined chunks for quick read.                            |
+| **Persona Understanding** | Must personalize output by understanding persona's **role** and **goal/task**.                                                             | Uses keyword-mapping per persona type (student, researcher, HR, etc.) + task-specific keywords.                    |
+| **Section Relevance**     | Must prioritize sections relevant to the job using heuristics (no LLMs or heavy models).                                                   | Uses a weighted scoring mechanism: title hits (x5), content hits (x3), position bonus, heading level bonus.        |
+| **Execution Time**        | ≤60 seconds per collection (≤10 PDFs, ≤500 pages total).                                                                                   | Achieves fast processing by modularizing per-PDF analysis and optimizing scoring logic.                            |
+| **Docker Constraints**    | Must run via Docker, offline, with no internet or external APIs.                                                                           | ✅ Fully dockerized, no network used, no external APIs, works on `linux/amd64`.                                     |
+| **Model Use**             | Models allowed only if embedded & within Docker image limit (≤1GB).                                                                        | No external model used. Logic is keyword-driven + rule-based heading parser built on top of 1A.                    |
+| **Subsection Extraction** | Should extract **refined snippets** (\~2–4 lines) from selected sections for better readability.                                           | Implements sentence grouping and bullet/number list splitting to produce short, meaningful snippets.               |
+| **Output Limit**          | Max 25 sections and 20 refined snippets.                                                                                                   | Honors limits strictly – outputs top 25 scored sections and max 20 refined text chunks across documents.           |
+
+---
+
+
+
 ## How to Run (Docker)
 
 1. Go to the challenge folder:

@@ -91,6 +91,24 @@ Each PDF produces an output in the following structure:
 * **Robust**: Skips headers, footers, junk characters, URLs, etc.
 * **Modular**: Each function does a focused job (title detection, span filtering, etc.) which makes it easier to improve or reuse later.
 
+
+
+
+---
+
+### 📊 Challenge 1A – Requirement vs Our Solution
+
+| Aspect                 | Requirement (from Hackathon Doc)                                                                     | Our Solution (Team Geni Coders)                                                                                   |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Goal**               | Extract document **title** and **outline** (headings H1–H3) with **page numbers**, in a JSON format. | Extracts title using smart heuristics on Page 1 and detects H1–H3 headings across pages with page number tagging. |
+| **Input**              | A **single PDF file** (≤50 pages).                                                                   | Takes one PDF per run via Docker-mounted `input/`, processes all pages.                                           |
+| **Output Format**      | JSON file containing title and outline with heading levels and page numbers.                         | Outputs clean structured JSON like: `{ "title": ..., "outline": [ {level, text, page} ] }`                        |
+| **Heading Levels**     | Must support hierarchical headings (e.g., H1, H2, H3).                                               | Implements rule-based heading level detection using font size + patterns like `1.2`, `1.2.3`, etc.                |
+| **Execution Time**     | ≤10 seconds (on 50-page document, AMD64 CPU only).                                                   | Optimized for speed; completes <10 seconds per PDF during testing.                                                |
+| **Docker Constraints** | Must run via Docker, offline, with no internet access.                                               | ✅ Fully dockerized, CPU-only, works offline without external dependencies.                                        |
+| **Model Use**          | Allowed, but model size + Docker image must stay within 200MB.                                       | Doesn’t use any ML model – purely rule-based, lightweight logic.                                                  |
+
+
 ---
 
 ## 🚀 How to Run the Code
