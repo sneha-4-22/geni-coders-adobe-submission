@@ -103,7 +103,11 @@ Must be located inside:
 
 Saved to `output/` as `<collection_name>_output.json`:
 
+
 <img width="752" height="595" alt="image" src="https://github.com/user-attachments/assets/75547eeb-6c99-483b-a9d9-53e579a832ac" />
+
+<img width="1372" height="94" alt="image" src="https://github.com/user-attachments/assets/53e03ed4-90b9-4865-b5ce-97fdca546b62" />
+
 
 
 ---
