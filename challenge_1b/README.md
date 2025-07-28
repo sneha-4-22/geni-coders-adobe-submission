@@ -144,7 +144,7 @@ Saved to `output/` as `<collection_name>_output.json`:
 ---
 
 
-### 📊 Challenge 1B – Requirement vs Our Solution
+###  Challenge 1B – Requirement vs Our Solution
 
 | Aspect                    | Requirement (from Hackathon Doc)                                                                                                           | Our Solution (Team Geni Coders)                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
