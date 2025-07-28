@@ -139,13 +139,13 @@ cd challenge_1b
 2. Build the Docker image:
 
 ```bash
-docker build --platform linux/amd64 -t challenge1b:latest .
+docker build --platform linux/amd64 -t geni-coder-persona-driven:latest .
 ```
 
 3. Run the container:
 
 ```bash
-docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --network none challenge1b:latest
+docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --network none geni-coder-persona-driven:latest
 ```
 
 ---

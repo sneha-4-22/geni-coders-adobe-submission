@@ -137,13 +137,13 @@ cd challenge_1a
 2. Build the Docker image:
 
 ```bash
-docker build -t pdf-extractor:latest .
+docker build -t geni-coder-pdf-extractor:latest .
 ```
 
 3. Run the container with input/output bindings:
 
 ```bash
-docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --network none pdf-extractor:latest
+docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --network none  geni-coder-pdf-extractor:latest
 ```
 
 * Place PDFs in `input/` folder.

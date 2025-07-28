@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.9-slim
+FROM python:3.9-slim
 
 # Set working directory
 WORKDIR /app
@@ -14,10 +14,10 @@ RUN pip install --no-cache-dir \
     nltk==3.8.1
 
 # Copy the solution script
-COPY main.py /app/
+COPY app.py /app/
 
 # Create input and output directories
 RUN mkdir -p /app/input /app/output
 
 # Set the default command
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]

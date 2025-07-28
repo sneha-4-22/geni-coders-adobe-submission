@@ -11,10 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY main.py .
+COPY app.py .
 
 # Create necessary directories
 RUN mkdir -p /app/input /app/output
 
 # Set the default command
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]
