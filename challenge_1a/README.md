@@ -70,16 +70,8 @@ This allows us to:
 
 Each PDF produces an output in the following structure:
 
-```json
-{
-  "title": "Sample Title",
-  "outline": [
-    { "level": "H1", "text": "Introduction", "page": 1 },
-    { "level": "H2", "text": "Background", "page": 2 },
-    ...
-  ]
-}
-```
+<img width="717" height="549" alt="image" src="https://github.com/user-attachments/assets/cabdd8c7-b0ec-47fd-a5f4-5c0ab3a4a64a" />
+
 
 ---
 
