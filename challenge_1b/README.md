@@ -89,20 +89,8 @@ Each input collection goes inside `input/` and should include:
 
 ### challenge1b\_input.json
 
-```json
-{
-  "persona": {
-    "role": "Undergraduate Student"
-  },
-  "job_to_be_done": {
-    "task": "Understand basics of computer networks"
-  },
-  "documents": [
-    { "filename": "networks101.pdf" },
-    { "filename": "osi_layers.pdf" }
-  ]
-}
-```
+<img width="627" height="587" alt="image" src="https://github.com/user-attachments/assets/9b062421-2af7-4231-89f2-39aeb0d3ab40" />
+
 
 ### PDF files
 
