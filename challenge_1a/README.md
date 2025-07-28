@@ -2,19 +2,18 @@
 
 ---
 
-# 🧠 Challenge 1A – Document Outline Extraction
+#  Challenge 1A – Document Outline Extraction
 
 **Round 1A Solution – Adobe Hackathon by Team Geni Coders**
 
-## 📝 Problem Statement
+##  Problem Statement
 
 We are given a PDF file and asked to extract its **title** and hierarchical **outline** (H1, H2, H3 headers), along with their respective **page numbers**, in a clean JSON format.
 
 ---
 
-## 🎯 Our Approach
+## Approach
 
-### 🧍 In Simple Terms 
 
 Imagine you are reading a PDF and trying to create a Table of Contents.
 You look for the **biggest title** on the first page — that’s probably the name of the document. Then you scan through each page and spot the **larger or bolder lines** that look like chapter headings (like "1 Introduction", "2.1 Background", etc.).
@@ -29,7 +28,7 @@ That’s exactly what we made the program do — it:
 
 ---
 
-### 🛠️ Technical Workflow
+###  Technical Methodology
 
 #### 1. **PDF Parsing with PyMuPDF (fitz)**
 
@@ -84,7 +83,7 @@ Each PDF produces an output in the following structure:
 
 ---
 
-## 🚀 Why This Works Well
+##  Why This Works Well
 
 * **Flexible**: Doesn’t rely purely on font sizes — also uses patterns, punctuation, and structure.
 * **Fast**: Handles multiple PDFs within the 10-second constraint.
@@ -111,7 +110,7 @@ Each PDF produces an output in the following structure:
 
 ---
 
-## 🚀 How to Run the Code
+##  How to Run the Code
 
 1. Open terminal and navigate to the challenge folder:
 
