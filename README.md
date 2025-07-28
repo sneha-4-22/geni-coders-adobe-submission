@@ -21,7 +21,6 @@ This repository showcases our full pipeline across both Round 1A and 1B, focusin
 │   ├── Collection 1/
 │   │   ├── PDFs/             # Source documents for test case 1
 │   │   ├── challenge1b_input.json
-│   │   └── challenge1b_output.json
 │   ├── Collection 2/         # Folder for additional test cases
 │   ├── Collection 3/
 │   ├── output/               # Output JSONs per persona-job requirement
