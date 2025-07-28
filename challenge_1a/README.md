@@ -149,6 +149,9 @@ docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --networ
 * Place PDFs in `input/` folder.
 * JSON outputs will be available in `output/`.
 
+<img width="1550" height="96" alt="image" src="https://github.com/user-attachments/assets/7426d6fc-cd27-4d80-b95d-0ee755d5d0c2" />
+
+
 ---
 
 ## 📚 Libraries Used
