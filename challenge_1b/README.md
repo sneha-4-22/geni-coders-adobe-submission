@@ -115,31 +115,8 @@ Must be located inside:
 
 Saved to `output/` as `<collection_name>_output.json`:
 
-```json
-{
-  "metadata": {
-    "input_documents": [...],
-    "persona": "...",
-    "job_to_be_done": "...",
-    "processing_timestamp": "..."
-  },
-  "extracted_sections": [
-    {
-      "document": "osi_layers.pdf",
-      "section_title": "Routing Basics",
-      "importance_rank": 1,
-      "page_number": 3
-    }
-  ],
-  "subsection_analysis": [
-    {
-      "document": "networks101.pdf",
-      "refined_text": "The OSI model is a conceptual framework...",
-      "page_number": 2
-    }
-  ]
-}
-```
+<img width="752" height="595" alt="image" src="https://github.com/user-attachments/assets/75547eeb-6c99-483b-a9d9-53e579a832ac" />
+
 
 ---
 
