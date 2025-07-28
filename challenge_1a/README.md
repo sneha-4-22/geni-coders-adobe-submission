@@ -159,4 +159,18 @@ docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --networ
 
 ---
 
+## 📚 Libraries Used
+
+| Library               | Purpose                                                                                             |
+|----------------------|-----------------------------------------------------------------------------------------------------|
+| `PyMuPDF (fitz)`      | For efficient PDF parsing, extracting structured text spans and layout info **on a per-page basis**. Used to detect headings (H1, H2, H3) individually on each page to preserve hierarchy accurately. |
+| `os`                  | To interact with filesystem directories for reading inputs and writing outputs                      |
+| `json`                | For creating structured JSON outputs conforming to required schema                                  |
+| `re`                  | For regular expression-based heading pattern detection (e.g., `1.`, `1.1`)                          |
+| `string`              | To clean and filter non-alphanumeric characters in title/heading spans                              |
+| `time`                | For timing execution and performance tracking                                                       |
+| `collections.Counter` | To identify the most common body font size across PDF pages to differentiate headings from body text |
+
+---
+
 
