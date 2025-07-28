@@ -196,15 +196,17 @@ docker run --rm -v ${PWD}/input:/app/input -v ${PWD}/output:/app/output --networ
 
 ## 📚 Libraries Used
 
-| Library               | Purpose                                                                                             |
-|----------------------|-----------------------------------------------------------------------------------------------------|
-| `PyMuPDF (fitz)`      | For efficient PDF parsing, extracting structured text spans and layout info **on a per-page basis**. Used to detect headings (H1, H2, H3) individually on each page to preserve hierarchy accurately. |
-| `os`                  | To interact with filesystem directories for reading inputs and writing outputs                      |
-| `json`                | For creating structured JSON outputs conforming to required schema                                  |
-| `re`                  | For regular expression-based heading pattern detection (e.g., `1.`, `1.1`)                          |
-| `string`              | To clean and filter non-alphanumeric characters in title/heading spans                              |
-| `time`                | For timing execution and performance tracking                                                       |
-| `collections.Counter` | To identify the most common body font size across PDF pages to differentiate headings from body text |
+| Library                   | Purpose                                                                                                                   |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `fitz` (PyMuPDF)          | For efficient PDF parsing, extracting structured text spans and layout info **on a per-page basis**. Used for title and heading detection (H1, H2, H3) per page. |
+| `os`                      | To traverse input folders, access PDF paths, and manage output directory creation                                        |
+| `json`                    | For reading the persona/task input configuration and writing structured output results                                   |
+| `time`                    | For tracking execution time of collection processing                                                                     |
+| `string`                  | For text filtering (e.g., removing punctuations, validating alphabetic characters)                                       |
+| `re`                      | For matching heading patterns (like numbered sections or colons) and extracting keywords from task descriptions          |
+| `collections.defaultdict`| To manage grouped data structures like persona keyword scores and document-wise section counters                         |
+| `collections.Counter`     | For identifying common font sizes to distinguish headings from body text                                                 |
+| `datetime`                | For generating ISO-format timestamps in output metadata                                                                  |
 
 ---
 
